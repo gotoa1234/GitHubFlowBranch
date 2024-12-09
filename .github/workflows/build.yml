@@ -1,0 +1,47 @@
+# 檔案路徑: .github/workflows/build.yml
+
+name: .NET Core Build and Test
+
+# 觸發條件
+on:
+  push:
+    branches: [ "main"]  # 當推送到這些分支時觸發
+  pull_request:
+    branches: [ "main"]  # 當對這些分支發起 PR 時觸發
+
+# 設定工作權限
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 最新版本
+    
+    steps:
+    # 檢出程式碼
+    - uses: actions/checkout@v4
+    
+    # 設定 .NET Core SDK
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x  # 指定 .NET 8.0 版本
+        
+    # 還原 NuGet 套件
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    # 建置專案
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+      
+    # 執行測試
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+      
+    # 發布專案
+    - name: Publish
+      run: dotnet publish --no-restore --configuration Release --output ./publish
