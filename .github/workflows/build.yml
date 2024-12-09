@@ -28,25 +28,35 @@ jobs:
           git fetch --all
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-        
+
+    # 顯示目錄結構（用於偵錯）
+    - name: Show directory structure
+      run: |
+        pwd
+        ls -la
+
     # 設定 .NET Core SDK
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x  # 指定 .NET 8.0 版本
         
-    # 還原 NuGet 套件
+    # 還原 NuGet 套件（指定工作目錄）
     - name: Restore dependencies
-      run: dotnet restore GitHubFlowBranch/GitHubFlowBranch.sln   
+      working-directory: ./GitHubFlowBranch
+      run: dotnet restore   
       
-    # 建置專案
+    # 建置專案（指定工作目錄）
     - name: Build
+      working-directory: ./GitHubFlowBranch
       run: dotnet build --no-restore --configuration Release
       
-    # 執行測試
+    # 執行測試（指定工作目錄）
     - name: Test
+      working-directory: ./GitHubFlowBranch
       run: dotnet test --no-build --verbosity normal --configuration Release
       
     # 發布專案
     - name: Publish
+      working-directory: ./GitHubFlowBranch
       run: dotnet publish --no-restore --configuration Release --output ./publish
