@@ -37,7 +37,7 @@ jobs:
         
     # 還原 NuGet 套件
     - name: Restore dependencies
-      run: dotnet restore GitHubFlowBranch.sln   
+      run: dotnet restore GitHubFlowBranch/GitHubFlowBranch.sln   
       
     # 建置專案
     - name: Build
