@@ -23,11 +23,6 @@ jobs:
     steps:
     # 檢出程式碼
     - uses: actions/checkout@v4
-    - name: 同步(Merge的方式)到目標分支
-      run: |
-          git fetch --all
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
 
     # 顯示目錄結構（用於偵錯）
     - name: Show directory structure
