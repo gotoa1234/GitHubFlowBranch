@@ -5,7 +5,7 @@ name: .NET Core Build and Test
 # 觸發條件
 on:
   push:
-    branches: [ "main"]  # 當推送到這些分支時觸發
+    branches: [ "main"]  # 當推送到這些分支時觸發 - 測試用
   pull_request:
     branches: [ "main"]  # 當對這些分支發起 PR 時觸發
 
@@ -21,37 +21,37 @@ jobs:
     runs-on: ubuntu-latest  # 使用 Ubuntu 最新版本
     
     steps:
-    # 檢出程式碼
+    # 1. CheckOut 程式碼
     - uses: actions/checkout@v4
 
-    # 顯示目錄結構（用於偵錯）
+    # 2. 顯示目錄結構（用於偵錯）
     - name: Show directory structure
       run: |
         pwd
         ls -la
 
-    # 設定 .NET Core SDK
+    # 3. 設定 .NET Core SDK (才可以建置)
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x  # 指定 .NET 8.0 版本
         
-    # 還原 NuGet 套件（指定工作目錄）
+    # 4. 還原 NuGet 套件
     - name: Restore dependencies
       working-directory: ./GitHubFlowBranch
       run: dotnet restore   
       
-    # 建置專案（指定工作目錄）
+    # 5. 建置專案
     - name: Build
       working-directory: ./GitHubFlowBranch
       run: dotnet build --no-restore --configuration Release
       
-    # 執行測試（指定工作目錄）
+    # 6. 執行測試（通常需要在代碼撰寫完成，目前範例未實現，這裡示意）
     - name: Test
       working-directory: ./GitHubFlowBranch
       run: dotnet test --no-build --verbosity normal --configuration Release
       
-    # 發布專案
+    # 7.發布專案（若要發布生產，完成 CD 的部分，需要實現此區塊，或者移除使用其他 CICD 工具）
     - name: Publish
       working-directory: ./GitHubFlowBranch
       run: dotnet publish --no-restore --configuration Release --output ./publish
