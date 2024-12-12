@@ -1,11 +1,11 @@
-# 檔案路徑: .github/workflows/build.yml
+# 檔案路徑: .github/workflows/deploy-to-production.yml
 
-name: .NET Core Build and Test
+name: .NET Core CICD Production
 
 # 觸發條件
 on:
   push:
-    tags:# 當簽入 v1.0.0 標籤時進行部署
+    tags: # 當簽入 v1.0.0 標籤時進行部署
       - 'v*'
 
 # 設定工作權限

@@ -1,11 +1,11 @@
-# 檔案路徑: .github/workflows/build.yml
+# 檔案路徑: .github/workflows/deploy-to-stage.yml
 
-name: .NET Core Build and Test
+name: .NET Core CICD Stage
 
 # 觸發條件
 on:
   push:
-    tags:# 當簽入 stage-v1.0.0 標籤時進行部署
+    tags: # 當簽入 stage-v1.0.0 標籤時進行部署
       - 'stage-*'
 
 # 設定工作權限
