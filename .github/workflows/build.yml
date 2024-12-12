@@ -4,8 +4,6 @@ name: .NET Core Build and Test
 
 # 觸發條件
 on:
-  push:
-    branches: [ "main"]  # 當推送到這些分支時觸發 - 測試用
   pull_request:
     branches: [ "main"]  # 當對這些分支發起 PR 時觸發
 
@@ -50,8 +48,3 @@ jobs:
     - name: Test
       working-directory: ./GitHubFlowBranch
       run: dotnet test --no-build --verbosity normal --configuration Release
-      
-    # 7.發布專案（若要發布生產，完成 CD 的部分，需要實現此區塊，或者移除使用其他 CICD 工具）
-    - name: Publish
-      working-directory: ./GitHubFlowBranch
-      run: dotnet publish --no-restore --configuration Release --output ./publish
