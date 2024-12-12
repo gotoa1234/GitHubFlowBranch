@@ -1,0 +1,56 @@
+# 檔案路徑: .github/workflows/build.yml
+
+name: .NET Core Build and Test
+
+# 觸發條件
+on:
+  push:
+    tags:# 當簽入 v1.0.0 標籤時進行部署
+      - 'v*'
+
+# 設定工作權限
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 最新版本
+    
+    steps:
+    # 1. CheckOut 程式碼
+    - uses: actions/checkout@v4
+
+    # 2. 顯示目錄結構（用於偵錯）
+    - name: Show directory structure
+      run: |
+        pwd
+        ls -la
+
+    # 3. 設定 .NET Core SDK (才可以建置)
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x  # 指定 .NET 8.0 版本
+        
+    # 4. 還原 NuGet 套件
+    - name: Restore dependencies
+      working-directory: ./GitHubFlowBranch
+      run: dotnet restore   
+      
+    # 5. 建置專案
+    - name: Build
+      working-directory: ./GitHubFlowBranch
+      run: dotnet build --no-restore --configuration Release
+      
+    # 6. 執行測試（通常需要在代碼撰寫完成，目前範例未實現，這裡示意）
+    - name: Test
+      working-directory: ./GitHubFlowBranch
+      run: dotnet test --no-build --verbosity normal --configuration Release
+      
+    # 7.發布專案 - 這裡要再改寫成 Production 環境位置，部署過去
+    - name: Publish
+      working-directory: ./GitHubFlowBranch
+      run: dotnet publish --no-restore --configuration Release --output ./publish
